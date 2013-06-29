@@ -1,0 +1,70 @@
+<!--
+Copyright (C) 2012 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do you sleep with that thing on?</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,400italic,300italic,100italic' rel='stylesheet' type='text/css'>
+  <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"
+        media="screen">
+
+  <style>
+    .quote {
+      font-size: 18px;
+      font-size: 45px;
+      line-height: 40px;
+      font-style: italic;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .date {
+      font-size: 12px;
+      padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="span3">
+      <h2>Do you sleep with that thing on?</h2>
+      <p>When I walk around New York City wearing Google Glass, I get a lot different reactions to it. I wanted to start tracking these reactions and what better way to do it than using Google's Mirror API? Anytime someone says something to me about Google Glass, I can tap into my application and dicatate their quote, which will automatically list here.</p>
+      <p>If you'd like to contribute, <a href="/auth">please click here</a>. After approving this Glassware with your account, a new card will appear in your timeline. You can pin that card so that it's easily accessible, just to the left of the "ok glass" card.</p>
+      <p>Created by <a href="http://mattrichardson.com/">Matt Richardson</a>.
+    </div>
+      <div class="span7 offset1">
+        {% for note in notes %}
+          <p class="quote">&ldquo;{{note.text}}&rdquo;</p>
+          {% if note.creatorName %}
+            <p class="date">heard by {{note.creatorName}} on {{note.date.strftime('%B %d, %Y')}}</p>
+          {% else %}
+            <p class="date">heard by a Glass user on {{note.date.strftime('%B %d, %Y')}}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+</div>
+
+<script
+    src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

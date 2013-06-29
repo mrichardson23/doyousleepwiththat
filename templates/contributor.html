@@ -1,0 +1,81 @@
+<!--
+Copyright (C) 2012 Google Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Do you sleep with that thing on?</title>
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,400italic,300italic,100italic' rel='stylesheet' type='text/css'>
+  <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet"
+        media="screen">
+
+  <style>
+    .quote {
+      font-size: 18px;
+      font-size: 45px;
+      line-height: 40px;
+      font-style: italic;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .date {
+      font-size: 12px;
+      padding-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="span3">
+      <h2>Do you sleep with that thing on?</h2>
+      <p>Thanks for being a contributor! Pin the card to your timeline and start sending in your entries! By default, your entries are published as they're approved. If you'd like to be an approved poster (entries are published immediately), <a href="http://mattrichardson.com/">contact Matt</a>.</p>
+      <h3>Contributor Settings</h3>
+      <form action="/contributor" method="post">
+        <input type="hidden" name="operation" value="insertItemWithAction">
+        <button class="btn" type="submit">Resend Pinnable Card</button>
+      </form>
+
+      <form action="/contributor" method="post">
+        <input type="hidden" name="operation" value="changeDisplayName">
+        <input type="text" name="displayName" value="{{displayName}}">
+        <button class="btn" type="submit">Update Display Name</button>
+      </form>
+      Updating the display name will not your display name on previous posts.
+    </div>
+      <div class="span7 offset1">
+        <h3>All of your entries:</h3>
+        {% for note in notes %}
+          <p class="quote">&ldquo;{{note.text}}&rdquo;</p>
+          {% if note.creatorName %}
+            <p class="date">heard by {{note.creatorName}} on {{note.date.strftime('%B %d, %Y')}}. this contribution is {% if note.public %}published{% else %}not published{% endif%}. </p>
+          {% else %}
+            <p class="date">heard by a Glass user on {{note.date.strftime('%B %d, %Y')}}</p>
+          {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+</div>
+
+<script
+    src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
