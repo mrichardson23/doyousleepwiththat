@@ -101,6 +101,8 @@ class UserHandler(webapp2.RequestHandler):
     displayName = StorageByKeyName(Credentials, self.userid, 'displayName').get()
     template_values['displayName'] = displayName
 
+    template_values['approved'] = StorageByKeyName(Credentials, self.userid, 'approved').get()
+
     template = jinja_environment.get_template('templates/contributor.html')
     self.response.out.write(template.render(template_values))
 

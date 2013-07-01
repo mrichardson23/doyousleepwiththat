@@ -51,6 +51,9 @@ limitations under the License.
       <h2>Do you sleep with that thing on?</h2>
       <p>Thanks for being a contributor! Pin the card to your timeline and start sending in your entries! By default, your entries are published as they're approved. If you'd like to be an approved poster (entries are published immediately), <a href="http://mattrichardson.com/">contact Matt</a>.</p>
       <h3>Contributor Settings</h3>
+      {% if approved %}
+      <p><strong>You are an approved poster.</strong> All entries you submit will be published automatically.</p>
+      {% endif %}
       <form action="/contributor" method="post">
         <input type="hidden" name="operation" value="insertItemWithAction">
         <button class="btn" type="submit">Resend Pinnable Card</button>
@@ -61,7 +64,8 @@ limitations under the License.
         <input type="text" name="displayName" value="{{displayName}}">
         <button class="btn" type="submit">Update Display Name</button>
       </form>
-      Updating the display name will not your display name on previous posts.
+      <p>Updating the display name will not change your display name on previous posts.</p>
+
     </div>
       <div class="span7 offset1">
         <h3>All of your entries:</h3>
