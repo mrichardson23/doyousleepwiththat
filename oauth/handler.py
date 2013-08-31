@@ -129,21 +129,19 @@ class OAuthCodeExchangeHandler(OAuthBaseRequestHandler):
           'callbackUrl': util.get_full_url(self, '/notify')
       }
       mirror_service.subscriptions().insert(body=subscription_body).execute()
+
+      contact_body = {
+          'id': 'DoYouSleepWithThat',
+          'displayName': 'Do You Sleep With That',
+          'speakableName': 'Do You Sleep With That',
+          'acceptCommands': [
+            {"type": "POST_AN_UPDATE"}
+          ]
+      }
+      mirror_service.contacts().insert(body=contact_body).execute()
+
     else:
       logging.info('Post auth tasks are not supported on staging.')
-
-    # Insert welcome message.
-    timeline_item_body = {
-        'creator': {
-            'displayName': 'Do You Sleep With That',
-            'id': 'DoYouSleepWithThat'
-        },
-        'text': 'Tap reply to log a reaction.',
-        'notification': {'level': 'DEFAULT'},
-        'menuItems': [{'action': 'REPLY'},
-                      {'action': 'TOGGLE_PINNED'}]
-    }
-    mirror_service.timeline().insert(body=timeline_item_body).execute()
 
 
 OAUTH_ROUTES = [

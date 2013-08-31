@@ -49,15 +49,11 @@ limitations under the License.
   <div class="row">
     <div class="span3">
       <h2>Do you sleep with that thing on?</h2>
-      <p>Thanks for being a contributor! Pin the card to your timeline and start sending in your entries! By default, your entries are published as they're approved. If you'd like to be an approved poster (entries are published immediately), <a href="http://mattrichardson.com/">contact Matt</a>.</p>
+      <p>Thanks for being a contributor! To post an update, say "Ok glass, post an update, do you sleeo wit that" and then speak the response you've heard. By default, your entries are published as they're approved. If you'd like to be an approved poster (entries are published immediately), <a href="http://mattrichardson.com/">contact Matt</a>.</p>
       <h3>Contributor Settings</h3>
       {% if approved %}
       <p><strong>You are an approved poster.</strong> All entries you submit will be published automatically.</p>
       {% endif %}
-      <form action="/contributor" method="post">
-        <input type="hidden" name="operation" value="insertItemWithAction">
-        <button class="btn" type="submit">Resend Pinnable Card</button>
-      </form>
 
       <form action="/contributor" method="post">
         <input type="hidden" name="operation" value="changeDisplayName">

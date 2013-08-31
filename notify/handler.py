@@ -68,38 +68,10 @@ class NotifyHandler(webapp2.RequestHandler):
   def _handle_timeline_notification(self, data):
     """Handle timeline notification."""
     for user_action in data.get('userActions', []):
-      if user_action.get('type') == 'SHARE':
-        # Fetch the timeline item.
-        item = self.mirror_service.timeline().get(id=data['itemId']).execute()
-        attachments = item.get('attachments', [])
-        media = None
-        if attachments:
-          # Get the first attachment on that timeline item and do stuff with it.
-          attachment = self.mirror_service.timeline().attachments().get(
-              itemId=data['itemId'],
-              attachmentId=attachments[0]['id']).execute()
-          resp, content = self.mirror_service._http.request(
-              attachment['contentUrl'])
-          if resp.status == 200:
-            media = MediaIoBaseUpload(
-                io.BytesIO(content), attachment['contentType'],
-                resumable=True)
-          else:
-            logging.info('Unable to retrieve attachment: %s', resp.status)
-        body = {
-            'text': 'Echoing your shared item: %s' % item.get('text', ''),
-            'notification': {'level': 'DEFAULT'}
-        }
-        self.mirror_service.timeline().insert(
-            body=body, media_body=media).execute()
-        # Only handle the first successful action.
-        break
-      elif user_action.get('type') == 'REPLY':
+      if user_action.get('type') == 'LAUNCH':
         item = self.mirror_service.timeline().get(id=data['itemId']).execute()
         text = item.get('text')
-        creator = item.get('creator')
-        creatorID = creator['id']
-        creatorID = creatorID[creatorID.index('_') + 1:]
+        creatorID = data.get('userToken')
         creatorName = StorageByKeyName(Credentials, creatorID, 'displayName').get()
         # If the contributor is approved, make the entry public:
         makePublic = StorageByKeyName(Credentials, creatorID, 'approved').get()
@@ -109,7 +81,7 @@ class NotifyHandler(webapp2.RequestHandler):
         newNote.put()
 
         logging.info('Reply received: %s' % text)
-        
+
         break
       else:
         logging.info(
